@@ -1,0 +1,6 @@
+categoryId|categoryName|description|displayOrder|iconName|isActive
+CAT001|Technology|Programming, Software Engineering, AI & Systems|1|bi-laptop|true
+CAT002|Fiction|Novels, Sci-Fi, Thrillers, and Classic Literature|2|bi-book|true
+CAT003|Business|Entrepreneurship, Management, Economics & Marketing|3|bi-briefcase|true
+CAT004|Self-Help|Personal Development, Mindfulness & Productivity|4|bi-heart|true
+CAT005|Science|Physics, Astronomy, Biology, Mathematics|5|bi-lightbulb|true

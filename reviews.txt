@@ -1,0 +1,6 @@
+reviewId|bookId|userId|username|rating|reviewText|reviewType|reviewDate|status
+REV001|B001|U002|john_doe|5|Masterpiece! Joshua Bloch explains Java design idioms with tremendous clarity.|VERIFIED|2026-10-02|APPROVED
+REV002|B002|U003|jane_smith|4|Essential reading for all software developers. Clean Code changes how you think about coding.|VERIFIED|2026-10-06|APPROVED
+REV003|B004|U004|kamal_perera|5|A chilling masterpiece that remains completely relevant decades later.|PUBLIC|2026-10-09|APPROVED
+REV004|B003|U002|john_doe|5|The best technical book on distributed databases and streaming systems.|PUBLIC|2026-10-10|PENDING_MODERATION
+REV005|B005|U003|jane_smith|4|Beautifully written classic. Fitzgerald's prose is breathtaking.|PUBLIC|2026-10-11|APPROVED

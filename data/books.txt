@@ -1,0 +1,9 @@
+bookId|isbn|title|author|category|basePrice|stockQuantity|bookType|extra1|extra2|description
+B001|978-0134685991|Effective Java (3rd Edition)|Joshua Bloch|Technology|45.00|25|PRINTED|0.85|Hardcover|The definitive guide to Java platform best practices and idioms.
+B002|978-0132350884|Clean Code: A Handbook of Agile Software Craftsmanship|Robert C. Martin|Technology|38.50|30|PRINTED|0.65|Paperback|Even bad code can function. But if code isn't clean, it can bring a development organization to its knees.
+B003|978-1491950357|Designing Data-Intensive Applications|Martin Kleppmann|Technology|32.00|999|EBOOK|18.5|PDF|The key principles, algorithms, and trade-offs of reliable, scalable, and maintainable systems.
+B004|978-0451524935|1984|George Orwell|Fiction|12.50|50|PRINTED|0.35|Paperback|A startling and haunting novel that depicts totalitarian rule and thought surveillance.
+B005|978-0743273565|The Great Gatsby|F. Scott Fitzgerald|Fiction|9.99|999|EBOOK|8.2|EPUB|The story of the fabulously wealthy Jay Gatsby and his love for the beautiful Daisy Buchanan.
+B006|978-0061120084|To Kill a Mockingbird|Harper Lee|Fiction|14.00|18|PRINTED|0.42|Paperback|Compassionate, dramatic, and deeply moving story exploring racial injustice and morality in the American South.
+B007|978-0307887894|The Lean Startup|Eric Ries|Business|22.00|40|PRINTED|0.52|Hardcover|How today's entrepreneurs use continuous innovation to create radically successful businesses.
+B008|978-0062457714|The Subtle Art of Not Giving a F*ck|Mark Manson|Self-Help|15.00|999|EBOOK|6.4|PDF|A counterintuitive approach to living a good life, accepting limitations, and embracing uncertainty.
