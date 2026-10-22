@@ -1,0 +1,4 @@
+# admins.txt - Admin Management data file
+# Format: adminId|username|email|password|permissions|createdDate
+ADM001|superadmin|admin@bookstore.com|admin123|MANAGE_BOOKS;MANAGE_ORDERS;MANAGE_USERS;VIEW_REPORTS;MANAGE_INVENTORY;MANAGE_ADMINS|2024-01-01
+ADM002|moderator|mod@bookstore.com|mod123|MANAGE_BOOKS;MANAGE_ORDERS;VIEW_REPORTS|2024-01-15

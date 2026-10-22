@@ -48,6 +48,11 @@ public interface UserService {
     boolean updateProfile(User user);
 
     /**
+     * Check if a username is already taken by a different user (for username change validation)
+     */
+    boolean isUsernameTaken(String username, String excludeUserId);
+
+    /**
      * Delete: Delete user by ID
      */
     boolean deleteUser(String userId);

@@ -64,7 +64,7 @@ public class CartController {
         updateSessionCartCount(session, userId);
 
         model.addAttribute("cart", cart);
-        model.addAttribute("pageTitle", "Shopping Cart - ReadVerse");
+        model.addAttribute("pageTitle", "Shopping Cart - Chapter One");
         return "cart/cart";
     }
 
@@ -119,7 +119,7 @@ public class CartController {
         }
 
         model.addAttribute("item", targetItem);
-        model.addAttribute("pageTitle", "Update Cart Item Quantity - ReadVerse");
+        model.addAttribute("pageTitle", "Update Cart Item Quantity - Chapter One");
         return "cart/cart-update";
     }
 
@@ -188,7 +188,7 @@ public class CartController {
         }
 
         model.addAttribute("cart", cart);
-        model.addAttribute("pageTitle", "Checkout Summary - ReadVerse");
+        model.addAttribute("pageTitle", "Checkout Summary - Chapter One");
         return "cart/checkout-summary";
     }
 }

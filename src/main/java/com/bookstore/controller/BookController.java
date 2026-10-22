@@ -28,10 +28,16 @@ import java.util.Optional;
 public class BookController {
 
     private final BookService bookService;
+    private final com.bookstore.service.ReviewService reviewService;
+    private final com.bookstore.service.CategoryService categoryService;
 
     @Autowired
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService,
+                          com.bookstore.service.ReviewService reviewService,
+                          com.bookstore.service.CategoryService categoryService) {
         this.bookService = bookService;
+        this.reviewService = reviewService;
+        this.categoryService = categoryService;
     }
 
     // =========================================================================
@@ -46,8 +52,9 @@ public class BookController {
                 : bookService.getAllBooks();
 
         model.addAttribute("books", books);
+        model.addAttribute("categories", categoryService.getAllCategoryNames());
         model.addAttribute("selectedCategory", category);
-        model.addAttribute("pageTitle", "Book Catalog - ReadVerse");
+        model.addAttribute("pageTitle", "Book Catalog - Chapter One");
         return "book/book-list";
     }
 
@@ -63,7 +70,10 @@ public class BookController {
 
         Book book = bookOpt.get();
         model.addAttribute("book", book);
-        model.addAttribute("pageTitle", book.getTitle() + " - ReadVerse");
+        model.addAttribute("reviews", reviewService.getReviewsForBook(bookId));
+        model.addAttribute("averageRating", reviewService.getAverageRating(bookId));
+        model.addAttribute("reviewCount", reviewService.getReviewCount(bookId));
+        model.addAttribute("pageTitle", book.getTitle() + " - Chapter One");
         return "book/book-details";
     }
 
@@ -80,11 +90,12 @@ public class BookController {
         List<Book> searchResults = bookService.searchBooks(keyword, category, minPrice, maxPrice);
 
         model.addAttribute("books", searchResults);
+        model.addAttribute("categories", categoryService.getAllCategoryNames());
         model.addAttribute("keyword", keyword);
         model.addAttribute("category", category);
         model.addAttribute("minPrice", minPrice);
         model.addAttribute("maxPrice", maxPrice);
-        model.addAttribute("pageTitle", "Search Books - ReadVerse");
+        model.addAttribute("pageTitle", "Search Books - Chapter One");
         return "book/book-search";
     }
 
@@ -100,8 +111,9 @@ public class BookController {
             return "redirect:/login";
         }
 
-        model.addAttribute("pageTitle", "Add New Book - ReadVerse");
+        model.addAttribute("pageTitle", "Add New Book - Chapter One");
         model.addAttribute("bookTypes", BookType.values());
+        model.addAttribute("categories", categoryService.getAllCategoryNames());
         return "book/book-add";
     }
 
@@ -118,6 +130,7 @@ public class BookController {
                                  @RequestParam(value = "weightKg", defaultValue = "0.5") double weightKg,
                                  @RequestParam(value = "coverType", defaultValue = "Paperback") String coverType,
                                  @RequestParam("description") String description,
+                                 @RequestParam(value = "imageUrl", required = false) String imageUrl,
                                  HttpSession session,
                                  RedirectAttributes redirectAttributes) {
         User currentUser = (User) session.getAttribute("currentUser");
@@ -131,9 +144,9 @@ public class BookController {
             Book newBook;
 
             if (bookType == BookType.EBOOK) {
-                newBook = new EBook(null, isbn, title, author, category, basePrice, stockQuantity, description, fileSizeMB, downloadFormat);
+                newBook = new EBook(null, isbn, title, author, category, basePrice, stockQuantity, description, fileSizeMB, downloadFormat, imageUrl);
             } else {
-                newBook = new PrintedBook(null, isbn, title, author, category, basePrice, stockQuantity, description, weightKg, coverType);
+                newBook = new PrintedBook(null, isbn, title, author, category, basePrice, stockQuantity, description, weightKg, coverType, imageUrl);
             }
 
             bookService.addBook(newBook);
@@ -162,7 +175,7 @@ public class BookController {
 
         List<Book> books = bookService.getAllBooks();
         model.addAttribute("books", books);
-        model.addAttribute("pageTitle", "Inventory & Stock Management - ReadVerse");
+        model.addAttribute("pageTitle", "Inventory & Stock Management - Chapter One");
         return "book/book-manage";
     }
 
@@ -188,6 +201,7 @@ public class BookController {
         }
 
         model.addAttribute("book", bookOpt.get());
+        model.addAttribute("categories", categoryService.getAllCategoryNames());
         model.addAttribute("pageTitle", "Edit Book - " + bookOpt.get().getTitle());
         return "book/book-edit";
     }
@@ -205,6 +219,7 @@ public class BookController {
                                   @RequestParam(value = "weightKg", required = false) Double weightKg,
                                   @RequestParam(value = "coverType", required = false) String coverType,
                                   @RequestParam("description") String description,
+                                  @RequestParam(value = "imageUrl", required = false) String imageUrl,
                                   HttpSession session,
                                   RedirectAttributes redirectAttributes) {
         User currentUser = (User) session.getAttribute("currentUser");
@@ -227,6 +242,7 @@ public class BookController {
         book.setBasePrice(basePrice);
         book.setStockQuantity(stockQuantity);
         book.setDescription(description);
+        book.setImageUrl(imageUrl);
 
         if (book instanceof EBook) {
             EBook eBook = (EBook) book;
@@ -238,14 +254,22 @@ public class BookController {
             if (coverType != null) printed.setCoverType(coverType);
         }
 
-        boolean updated = bookService.updateBook(book);
-        if (updated) {
-            redirectAttributes.addFlashAttribute("successMessage", "Book '" + title + "' updated successfully in books.txt!");
-        } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Failed to update book in data file.");
+        try {
+            boolean updated = bookService.updateBook(book);
+            if (updated) {
+                redirectAttributes.addFlashAttribute("successMessage", "Book '" + title + "' updated successfully in books.txt!");
+                return "redirect:/books/manage";
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage", "Failed to update book in data file.");
+                return "redirect:/books/edit?id=" + bookId;
+            }
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/books/edit?id=" + bookId;
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error updating book: " + e.getMessage());
+            return "redirect:/books/edit?id=" + bookId;
         }
-
-        return "redirect:/books/manage";
     }
 
     // Direct Stock Quantity Adjustment

@@ -21,7 +21,11 @@ public class PrintedBook extends Book {
     }
 
     public PrintedBook(String bookId, String isbn, String title, String author, String category, double basePrice, int stockQuantity, String description, double weightKg, String coverType) {
-        super(bookId, isbn, title, author, category, basePrice, stockQuantity, BookType.PRINTED, description);
+        this(bookId, isbn, title, author, category, basePrice, stockQuantity, description, weightKg, coverType, "");
+    }
+
+    public PrintedBook(String bookId, String isbn, String title, String author, String category, double basePrice, int stockQuantity, String description, double weightKg, String coverType, String imageUrl) {
+        super(bookId, isbn, title, author, category, basePrice, stockQuantity, BookType.PRINTED, description, imageUrl);
         this.weightKg = Math.max(0.05, weightKg);
         this.coverType = (coverType != null && !coverType.trim().isEmpty()) ? coverType.trim() : "Paperback";
     }
@@ -72,7 +76,8 @@ public class PrintedBook extends Book {
             BookType.PRINTED.name(),
             String.format(java.util.Locale.US, "%.2f", weightKg),
             coverType,
-            getDescription()
+            getDescription(),
+            getImageUrl() != null ? getImageUrl() : ""
         );
     }
 }

@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class FileBookDaoImpl implements BookDao {
 
     private static final String FILENAME = "books.txt";
-    private static final String HEADER = "bookId|isbn|title|author|category|basePrice|stockQuantity|bookType|extra1|extra2|description";
+    private static final String HEADER = "bookId|isbn|title|author|category|basePrice|stockQuantity|bookType|extra1|extra2|description|imageUrl";
 
     @Override
     public synchronized boolean save(Book book) {
@@ -201,15 +201,16 @@ public class FileBookDaoImpl implements BookDao {
             String extra1 = tokens.length > 8 ? tokens[8].trim() : "";
             String extra2 = tokens.length > 9 ? tokens[9].trim() : "";
             String description = tokens.length > 10 ? tokens[10].trim() : "";
+            String imageUrl = tokens.length > 11 ? tokens[11].trim() : "";
 
             if (bookType == BookType.EBOOK) {
                 double fileSizeMB = !extra1.isEmpty() ? Double.parseDouble(extra1) : 5.0;
                 String format = !extra2.isEmpty() ? extra2 : "PDF";
-                return new EBook(bookId, isbn, title, author, category, basePrice, stockQuantity, description, fileSizeMB, format);
+                return new EBook(bookId, isbn, title, author, category, basePrice, stockQuantity, description, fileSizeMB, format, imageUrl);
             } else {
                 double weightKg = !extra1.isEmpty() ? Double.parseDouble(extra1) : 0.5;
                 String coverType = !extra2.isEmpty() ? extra2 : "Paperback";
-                return new PrintedBook(bookId, isbn, title, author, category, basePrice, stockQuantity, description, weightKg, coverType);
+                return new PrintedBook(bookId, isbn, title, author, category, basePrice, stockQuantity, description, weightKg, coverType, imageUrl);
             }
         } catch (Exception e) {
             System.err.println("Error parsing book record: " + line + " -> " + e.getMessage());

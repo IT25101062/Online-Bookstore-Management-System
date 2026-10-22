@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<c:if test="${not empty successMessage or not empty errorMessage or not empty infoMessage or not empty warningMessage}">
 <div class="container mt-3">
     <c:if test="${not empty successMessage}">
         <div class="alert alert-success alert-dismissible fade show d-flex align-items-center shadow-sm" role="alert">
@@ -34,3 +35,4 @@
         </div>
     </c:if>
 </div>
+</c:if>

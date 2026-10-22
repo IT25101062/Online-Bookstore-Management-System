@@ -26,6 +26,7 @@ public class DataInitializer implements CommandLineRunner {
         }
 
         initializeUsers();
+        initializeAdmins();
         initializeBooks();
         initializeCategories();
         initializeCart();
@@ -37,7 +38,7 @@ public class DataInitializer implements CommandLineRunner {
         if (!Files.exists(FileStorageHelper.resolvePath("users.txt"))) {
             String header = "userId|username|password|fullName|email|phoneNumber|role|membershipType|createdAt";
             List<String> records = Arrays.asList(
-                "U001|admin|admin123|Sarah Jenkins|admin@readverse.com|0771234567|ADMIN|NONE|2026-01-10",
+                "U001|admin|admin123|Sarah Jenkins|admin@readerscafe.com|0771234567|ADMIN|NONE|2026-01-10",
                 "U002|john_doe|password123|John Doe|john.doe@gmail.com|0712345678|CUSTOMER|GOLD|2026-02-15",
                 "U003|jane_smith|password123|Jane Smith|jane.smith@yahoo.com|0723456789|CUSTOMER|SILVER|2026-03-01",
                 "U004|kamal_perera|password123|Kamal Perera|kamal.p@gmail.com|0754567890|CUSTOMER|STANDARD|2026-03-20"
@@ -46,18 +47,29 @@ public class DataInitializer implements CommandLineRunner {
         }
     }
 
+    private void initializeAdmins() {
+        if (!Files.exists(FileStorageHelper.resolvePath("admins.txt"))) {
+            String header = "adminId|username|email|password|permissions|createdDate";
+            List<String> records = Arrays.asList(
+                "ADM001|superadmin|admin@bookstore.com|admin123|MANAGE_BOOKS;MANAGE_ORDERS;MANAGE_USERS;VIEW_REPORTS;MANAGE_INVENTORY;MANAGE_ADMINS|2024-01-01",
+                "ADM002|moderator|mod@bookstore.com|mod123|MANAGE_BOOKS;MANAGE_ORDERS;VIEW_REPORTS|2024-01-15"
+            );
+            FileStorageHelper.writeAllLines("admins.txt", header, records);
+        }
+    }
+
     private void initializeBooks() {
         if (!Files.exists(FileStorageHelper.resolvePath("books.txt"))) {
-            String header = "bookId|isbn|title|author|category|basePrice|stockQuantity|bookType|extra1|extra2|description";
+            String header = "bookId|isbn|title|author|category|basePrice|stockQuantity|bookType|extra1|extra2|description|imageUrl";
             List<String> records = Arrays.asList(
-                "B001|978-0134685991|Effective Java (3rd Edition)|Joshua Bloch|Technology|45.00|25|PRINTED|0.85|Hardcover|The definitive guide to Java platform best practices and idioms.",
-                "B002|978-0132350884|Clean Code: A Handbook of Agile Software Craftsmanship|Robert C. Martin|Technology|38.50|30|PRINTED|0.65|Paperback|Even bad code can function. But if code isn't clean, it can bring a development organization to its knees.",
-                "B003|978-1491950357|Designing Data-Intensive Applications|Martin Kleppmann|Technology|32.00|999|EBOOK|18.5|PDF|The key principles, algorithms, and trade-offs of reliable, scalable, and maintainable systems.",
-                "B004|978-0451524935|1984|George Orwell|Fiction|12.50|50|PRINTED|0.35|Paperback|A startling and haunting novel that depicts totalitarian rule and thought surveillance.",
-                "B005|978-0743273565|The Great Gatsby|F. Scott Fitzgerald|Fiction|9.99|999|EBOOK|8.2|EPUB|The story of the fabulously wealthy Jay Gatsby and his love for the beautiful Daisy Buchanan.",
-                "B006|978-0061120084|To Kill a Mockingbird|Harper Lee|Fiction|14.00|18|PRINTED|0.42|Paperback|Compassionate, dramatic, and deeply moving story exploring racial injustice and morality in the American South.",
-                "B007|978-0307887894|The Lean Startup|Eric Ries|Business|22.00|40|PRINTED|0.52|Hardcover|How today's entrepreneurs use continuous innovation to create radically successful businesses.",
-                "B008|978-0062457714|The Subtle Art of Not Giving a F*ck|Mark Manson|Self-Help|15.00|999|EBOOK|6.4|PDF|A counterintuitive approach to living a good life, accepting limitations, and embracing uncertainty."
+                "B001|978-0134685991|Effective Java (3rd Edition)|Joshua Bloch|Technology|45.00|25|PRINTED|0.85|Hardcover|The definitive guide to Java platform best practices and idioms.|https://covers.openlibrary.org/b/isbn/9780134685991-L.jpg",
+                "B002|978-0132350884|Clean Code: A Handbook of Agile Software Craftsmanship|Robert C. Martin|Technology|38.50|30|PRINTED|0.65|Paperback|Even bad code can function. But if code isn't clean, it can bring a development organization to its knees.|https://covers.openlibrary.org/b/isbn/9780132350884-L.jpg",
+                "B003|978-1491950357|Designing Data-Intensive Applications|Martin Kleppmann|Technology|32.00|999|EBOOK|18.5|PDF|The key principles, algorithms, and trade-offs of reliable, scalable, and maintainable systems.|https://covers.openlibrary.org/b/isbn/9781491950357-L.jpg",
+                "B004|978-0451524935|1984|George Orwell|Fiction|12.50|50|PRINTED|0.35|Paperback|A startling and haunting novel that depicts totalitarian rule and thought surveillance.|https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg",
+                "B005|978-0743273565|The Great Gatsby|F. Scott Fitzgerald|Fiction|9.99|999|EBOOK|8.2|EPUB|The story of the fabulously wealthy Jay Gatsby and his love for the beautiful Daisy Buchanan.|https://covers.openlibrary.org/b/isbn/9780743273565-L.jpg",
+                "B006|978-0061120084|To Kill a Mockingbird|Harper Lee|Fiction|14.00|18|PRINTED|0.42|Paperback|Compassionate, dramatic, and deeply moving story exploring racial injustice and morality in the American South.|https://covers.openlibrary.org/b/isbn/9780061120084-L.jpg",
+                "B007|978-0307887894|The Lean Startup|Eric Ries|Business|22.00|40|PRINTED|0.52|Hardcover|How today's entrepreneurs use continuous innovation to create radically successful businesses.|https://covers.openlibrary.org/b/isbn/9780307887894-L.jpg",
+                "B008|978-0062457714|The Subtle Art of Not Giving a F*ck|Mark Manson|Self-Help|15.00|999|EBOOK|6.4|PDF|A counterintuitive approach to living a good life, accepting limitations, and embracing uncertainty.|https://covers.openlibrary.org/b/isbn/9780062457714-L.jpg"
             );
             FileStorageHelper.writeAllLines("books.txt", header, records);
         }

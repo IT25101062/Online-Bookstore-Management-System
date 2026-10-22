@@ -4,11 +4,19 @@ import com.bookstore.model.user.*;
 import com.bookstore.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +36,9 @@ public class UserController {
 
     private final UserService userService;
 
+    @Value("${app.profile.upload.dir:src/main/resources/static/images/profiles}")
+    private String profileUploadDir;
+
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
@@ -42,7 +53,7 @@ public class UserController {
         if (session.getAttribute("currentUser") != null) {
             return "redirect:/";
         }
-        model.addAttribute("pageTitle", "User Login - ReadVerse");
+        model.addAttribute("pageTitle", "User Login - Chapter One");
         return "user/login";
     }
 
@@ -60,7 +71,7 @@ public class UserController {
                 "Welcome back, " + user.getFullName() + "! Logged in as " + user.getRoleDescription());
 
             if (user.hasAdminPrivileges()) {
-                return "redirect:/admin";
+                return "redirect:/admin/dashboard";
             }
             return "redirect:/";
         } else {
@@ -85,7 +96,7 @@ public class UserController {
         if (session.getAttribute("currentUser") != null) {
             return "redirect:/";
         }
-        model.addAttribute("pageTitle", "Register Account - ReadVerse");
+        model.addAttribute("pageTitle", "Register Account - Chapter One");
         model.addAttribute("membershipTypes", MembershipType.values());
         return "user/register";
     }
@@ -141,7 +152,7 @@ public class UserController {
         }
 
         model.addAttribute("user", currentUser);
-        model.addAttribute("pageTitle", "My Profile - ReadVerse");
+        model.addAttribute("pageTitle", "My Profile - Chapter One");
         model.addAttribute("membershipTypes", MembershipType.values());
         return "user/profile";
     }
@@ -150,6 +161,7 @@ public class UserController {
     public String updateProfile(@RequestParam("fullName") String fullName,
                                 @RequestParam("email") String email,
                                 @RequestParam("phoneNumber") String phoneNumber,
+                                @RequestParam(value = "newUsername", required = false) String newUsername,
                                 @RequestParam(value = "password", required = false) String password,
                                 @RequestParam(value = "membershipType", required = false) String membershipType,
                                 HttpSession session,
@@ -163,6 +175,24 @@ public class UserController {
             currentUser.setFullName(fullName);
             currentUser.setEmail(email);
             currentUser.setPhoneNumber(phoneNumber);
+
+            // Username change validation
+            if (newUsername != null && !newUsername.trim().isEmpty()) {
+                String trimmedUsername = newUsername.trim().toLowerCase().replaceAll("\\s+", "_");
+                if (trimmedUsername.length() < 3) {
+                    redirectAttributes.addFlashAttribute("errorMessage", "Username must be at least 3 characters.");
+                    return "redirect:/profile";
+                }
+                if (!trimmedUsername.matches("[a-zA-Z0-9_\\.]+")) {
+                    redirectAttributes.addFlashAttribute("errorMessage", "Username may only contain letters, numbers, underscores, and dots.");
+                    return "redirect:/profile";
+                }
+                if (userService.isUsernameTaken(trimmedUsername, currentUser.getUserId())) {
+                    redirectAttributes.addFlashAttribute("errorMessage", "Username '" + trimmedUsername + "' is already taken. Please choose another.");
+                    return "redirect:/profile";
+                }
+                currentUser.setUsername(trimmedUsername);
+            }
 
             if (password != null && !password.trim().isEmpty() && password.trim().length() >= 6) {
                 currentUser.setPassword(password.trim());
@@ -238,5 +268,83 @@ public class UserController {
         }
 
         return "redirect:/users";
+    }
+
+    // =========================================================================
+    // Profile Picture Upload
+    // =========================================================================
+
+    @PostMapping("/profile/upload-picture")
+    public String uploadProfilePicture(@RequestParam("profilePic") MultipartFile file,
+                                       HttpSession session,
+                                       RedirectAttributes redirectAttributes) {
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/login";
+        }
+
+        if (file == null || file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Please choose an image file to upload.");
+            return "redirect:/profile";
+        }
+
+        // Validate file type
+        String contentType = file.getContentType();
+        if (contentType == null || (!contentType.equals("image/jpeg") &&
+                !contentType.equals("image/png") && !contentType.equals("image/gif") &&
+                !contentType.equals("image/webp"))) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Only JPG, PNG, GIF, or WEBP images are allowed.");
+            return "redirect:/profile";
+        }
+
+        // Validate file size (max 5MB)
+        if (file.getSize() > 5 * 1024 * 1024) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Image must be under 5MB.");
+            return "redirect:/profile";
+        }
+
+        try {
+            // Determine extension from original filename or content type
+            String originalName = file.getOriginalFilename();
+            String ext = ".jpg";
+            if (originalName != null && originalName.contains(".")) {
+                ext = originalName.substring(originalName.lastIndexOf(".")).toLowerCase();
+            } else if ("image/png".equals(contentType)) {
+                ext = ".png";
+            } else if ("image/gif".equals(contentType)) {
+                ext = ".gif";
+            } else if ("image/webp".equals(contentType)) {
+                ext = ".webp";
+            }
+
+            String filename = currentUser.getUserId() + ext;
+
+            // Save to source directory
+            File uploadDir = new File(profileUploadDir);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+            Path dest = Paths.get(profileUploadDir, filename);
+            Files.copy(file.getInputStream(), dest, StandardCopyOption.REPLACE_EXISTING);
+
+            // Also copy to target/classes so Spring Boot serves it immediately without restart
+            String targetDir = "target/classes/static/images/profiles";
+            File targetDirFile = new File(targetDir);
+            if (!targetDirFile.exists()) {
+                targetDirFile.mkdirs();
+            }
+            Path targetDest = Paths.get(targetDir, filename);
+            Files.copy(file.getInputStream(), targetDest, StandardCopyOption.REPLACE_EXISTING);
+
+            // Update user session with the new picture filename
+            currentUser.setProfilePicture(filename);
+            session.setAttribute("currentUser", currentUser);
+
+            redirectAttributes.addFlashAttribute("successMessage", "Profile picture updated successfully!");
+        } catch (IOException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to upload picture: " + e.getMessage());
+        }
+
+        return "redirect:/profile";
     }
 }

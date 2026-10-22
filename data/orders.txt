@@ -1,5 +1,7 @@
+
 orderId|userId|totalAmount|paymentMethod|paymentStatus|orderStatus|orderDate|shippingAddress|itemSummary
 ORD1001|U002|77.00|CARD|PAID|DELIVERED|2026-10-01|45 Lotus Road, Colombo 03|Effective Java (x1), Designing Data-Intensive Applications (x1)
 ORD1002|U003|22.49|CASH|PAID|SHIPPED|2026-10-05|12 Lake Drive, Kandy|1984 (x1), The Great Gatsby (x1)
 ORD1003|U004|45.00|CARD|PAID|PROCESSING|2026-10-09|78 Galle Road, Mount Lavinia|Effective Java (x1)
 ORD1004|U002|38.50|CASH|PENDING|PENDING|2026-10-10|45 Lotus Road, Colombo 03|Clean Code (x1)
+ORD1005|U006|4501.27|CASH|PAID|PENDING|2026-10-22|46/3 Hansagiri rd gmapaha|Effective Java (3rd Edition) x1;

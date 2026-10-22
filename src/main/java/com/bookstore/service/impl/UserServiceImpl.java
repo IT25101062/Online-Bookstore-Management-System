@@ -109,6 +109,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean isUsernameTaken(String username, String excludeUserId) {
+        if (username == null || username.trim().isEmpty()) return false;
+        Optional<User> existing = userDao.findByUsername(username.trim());
+        // Taken if exists AND belongs to a different user
+        return existing.isPresent() && !existing.get().getUserId().equalsIgnoreCase(excludeUserId);
+    }
+
+    @Override
     public boolean deleteUser(String userId) {
         if (userId == null) return false;
         // Prevent deleting primary super admin

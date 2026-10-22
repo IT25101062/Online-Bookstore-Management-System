@@ -1,5 +1,7 @@
 userId|username|password|fullName|email|phoneNumber|role|membershipType|createdAt
-U001|admin|admin123|Sarah Jenkins|admin@readverse.com|0771234567|ADMIN|NONE|2026-01-10
+U001|admin_dinanga|admin123|Dinanga Sen|admin@readerscafe.com|0771234567|ADMIN|NONE|2026-01-10
 U002|john_doe|password123|John Doe|john.doe@gmail.com|0712345678|CUSTOMER|GOLD|2026-02-15
 U003|jane_smith|password123|Jane Smith|jane.smith@yahoo.com|0723456789|CUSTOMER|SILVER|2026-03-01
 U004|kamal_perera|password123|Kamal Perera|kamal.p@gmail.com|0754567890|CUSTOMER|STANDARD|2026-03-20
+U005|Senin|123456|Senindee Dinanga|senindee@gmail.com|0761234551|CUSTOMER|STANDARD|2026-10-22
+U006|Alex_Reader|123456|Alex Perera|alex@gmail.com|076 2638405|CUSTOMER|STANDARD|2026-10-22

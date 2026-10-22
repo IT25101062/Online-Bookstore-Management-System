@@ -24,6 +24,8 @@ public abstract class User implements Serializable {
     private String phoneNumber;
     private UserRole role;
     private String createdAt;
+    // Profile picture filename (e.g. "U001.jpg") — stored as a separate image file, not in the pipe record
+    private String profilePicture;
 
     // Default Constructor
     public User() {
@@ -157,6 +159,21 @@ public abstract class User implements Serializable {
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+    /**
+     * Returns true if the user has a custom uploaded profile picture.
+     */
+    public boolean hasProfilePicture() {
+        return profilePicture != null && !profilePicture.trim().isEmpty();
     }
 
     /**

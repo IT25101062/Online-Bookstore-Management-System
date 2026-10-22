@@ -6,7 +6,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 /**
  * SE1020 - Object Oriented Programming
- * Online Bookstore Management System (ReadVerse)
+ * Online Bookstore Management System (Chapter One)
  * 
  * Main Application Entry Point
  * Demonstrates:
@@ -23,7 +23,7 @@ public class BookstoreApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(BookstoreApplication.class, args);
         System.out.println("==================================================================");
-        System.out.println("  ReadVerse - Online Bookstore Management System Started Successfully! ");
+        System.out.println("  Chapter One - Online Bookstore Started Successfully! ");
         System.out.println("  Access application at: http://localhost:8080/                    ");
         System.out.println("  Default Admin Login  : admin / admin123                          ");
         System.out.println("  Default Customer     : john_doe / password123                    ");

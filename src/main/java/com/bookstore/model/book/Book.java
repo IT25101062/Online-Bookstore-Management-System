@@ -25,15 +25,22 @@ public abstract class Book implements Serializable {
     private int stockQuantity;
     private BookType bookType;
     private String description;
+    private String imageUrl = "";
 
     // Default Constructor
     public Book() {
         this.basePrice = 0.0;
         this.stockQuantity = 0;
+        this.imageUrl = "";
     }
 
-    // Parameterized Constructor
+    // Parameterized Constructor (without imageUrl, for backward compatibility)
     public Book(String bookId, String isbn, String title, String author, String category, double basePrice, int stockQuantity, BookType bookType, String description) {
+        this(bookId, isbn, title, author, category, basePrice, stockQuantity, bookType, description, "");
+    }
+
+    // Parameterized Constructor (with imageUrl)
+    public Book(String bookId, String isbn, String title, String author, String category, double basePrice, int stockQuantity, BookType bookType, String description, String imageUrl) {
         this.bookId = bookId;
         this.isbn = isbn;
         this.title = title;
@@ -43,6 +50,7 @@ public abstract class Book implements Serializable {
         setStockQuantity(stockQuantity); // Use validated setter
         this.bookType = bookType;
         this.description = description;
+        setImageUrl(imageUrl);
     }
 
     // =========================================================================
@@ -153,5 +161,17 @@ public abstract class Book implements Serializable {
 
     public void setDescription(String description) {
         this.description = description != null ? description.trim() : "";
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl != null ? imageUrl.trim() : "";
+    }
+
+    public boolean hasImageUrl() {
+        return imageUrl != null && !imageUrl.trim().isEmpty();
     }
 }

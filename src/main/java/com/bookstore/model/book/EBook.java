@@ -22,7 +22,11 @@ public class EBook extends Book {
     }
 
     public EBook(String bookId, String isbn, String title, String author, String category, double basePrice, int stockQuantity, String description, double fileSizeMB, String downloadFormat) {
-        super(bookId, isbn, title, author, category, basePrice, stockQuantity, BookType.EBOOK, description);
+        this(bookId, isbn, title, author, category, basePrice, stockQuantity, description, fileSizeMB, downloadFormat, "");
+    }
+
+    public EBook(String bookId, String isbn, String title, String author, String category, double basePrice, int stockQuantity, String description, double fileSizeMB, String downloadFormat, String imageUrl) {
+        super(bookId, isbn, title, author, category, basePrice, stockQuantity, BookType.EBOOK, description, imageUrl);
         this.fileSizeMB = Math.max(0.1, fileSizeMB);
         this.downloadFormat = (downloadFormat != null && !downloadFormat.trim().isEmpty()) ? downloadFormat.trim() : "PDF";
     }
@@ -73,7 +77,8 @@ public class EBook extends Book {
             BookType.EBOOK.name(),
             String.format(java.util.Locale.US, "%.1f", fileSizeMB),
             downloadFormat,
-            getDescription()
+            getDescription(),
+            getImageUrl() != null ? getImageUrl() : ""
         );
     }
 }

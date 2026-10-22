@@ -1,6 +1,40 @@
 categoryId|categoryName|description|displayOrder|iconName|isActive
-CAT001|Technology|Programming, Software Engineering, AI & Systems|1|bi-laptop|true
-CAT002|Fiction|Novels, Sci-Fi, Thrillers, and Classic Literature|2|bi-book|true
-CAT003|Business|Entrepreneurship, Management, Economics & Marketing|3|bi-briefcase|true
-CAT004|Self-Help|Personal Development, Mindfulness & Productivity|4|bi-heart|true
-CAT005|Science|Physics, Astronomy, Biology, Mathematics|5|bi-lightbulb|true
+CAT001|Romance|Romantic novels and love stories|1|bi-heart-fill|true
+CAT002|Mystery|Detective, suspense and whodunit stories|2|bi-search|true
+CAT003|Thriller|Fast-paced, psychological and action thrillers|3|bi-lightning-charge-fill|true
+CAT004|Fantasy|Epic fantasy, magic and mystical adventures|4|bi-stars|true
+CAT005|Science Fiction|Futuristic, space and sci-fi exploration|5|bi-rocket-takeoff-fill|true
+CAT006|Self-Help|Personal growth, mindfulness and productivity|6|bi-heart|true
+CAT007|Personal Development|Success habits, leadership and motivation|7|bi-arrow-up-right-circle-fill|true
+CAT008|Literature|Contemporary and literary fiction works|8|bi-journal-bookmark-fill|true
+CAT009|Classics|Timeless literary masterpieces and heritage editions|9|bi-book-half|true
+CAT010|Biography|Life stories and inspiring biographies of notable figures|10|bi-person-badge-fill|true
+CAT011|Memoir|Personal accounts, memories and autobiographies|11|bi-feather|true
+CAT012|Education|Academic, textbooks and educational guides|12|bi-mortarboard-fill|true
+CAT013|Technology|Programming, software engineering, AI and computing|13|bi-laptop|true
+CAT014|Children's Books|Engaging stories, fairytales and kids picture books|14|bi-balloon-fill|true
+CAT015|Horror|Supernatural, paranormal and psychological horror|15|bi-moon-stars-fill|true
+CAT016|Historical Fiction|Dramatic stories set across historical eras|16|bi-hourglass-split|true
+CAT017|Lifestyle|Modern living, home, balance and wellness|17|bi-house-heart-fill|true
+CAT018|Hobbies|Crafts, gardening, leisure and pastimes|18|bi-puzzle-fill|true
+CAT019|Cooking|Cookbooks, gastronomy and culinary recipes|19|bi-cup-hot-fill|true
+CAT020|Travel|Travelogues, guidebooks and global journeys|20|bi-globe-americas|true
+CAT021|Art|Visual arts, painting, design and architecture|21|bi-palette-fill|true
+CAT022|Photography|Photographic techniques, portfolios and visual storytelling|22|bi-camera-fill|true
+CAT023|Fitness|Exercise routines, athletics and healthy living|23|bi-activity|true
+CAT024|Sinhala Books|Sinhala literature, translations, novels and poetry|24|bi-translate|true
+CAT025|Tamil Books|Tamil literature, novels, poetry and cultural classics|25|bi-translate|true
+CAT026|Poetry|Poems, verses, anthologies and lyrical writings|26|bi-flower1|true
+CAT027|Adventure|Wilderness expeditions, survival and daring adventures|27|bi-compass-fill|true
+CAT028|Crime|True crime, criminal investigations and legal thrillers|28|bi-shield-shaded|true
+CAT029|Young Adult|Coming-of-age fiction and teen literature|29|bi-people-fill|true
+CAT030|Religion|Spiritual teachings, theology and world faiths|30|bi-sun-fill|true
+CAT031|Philosophy|Philosophical thought, ethics, logic and wisdom|31|bi-chat-quote-fill|true
+CAT032|Business|Management, leadership, startups and entrepreneurship|32|bi-briefcase-fill|true
+CAT033|Economics|Finance, markets, trade and economic theories|33|bi-graph-up-arrow|true
+CAT034|Health|Medicine, nutrition, wellness and mental wellbeing|34|bi-heart-pulse-fill|true
+CAT035|Psychology|Human behavior, cognitive science and mind study|35|bi-cpu-fill|true
+CAT036|Comics|Comic strips, serialized art and superhero stories|36|bi-chat-square-dots-fill|true
+CAT037|Graphic Novels|Visual storytelling and illustrated graphic narratives|37|bi-images|true
+CAT038|Drama|Plays, theater scripts and dramatic storytelling|38|bi-masks-theater|true
+CAT039|Short Stories|Collections of short tales and literary snapshots|39|bi-collection-fill|true
