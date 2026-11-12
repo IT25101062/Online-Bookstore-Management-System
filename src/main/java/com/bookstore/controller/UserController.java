@@ -1,6 +1,8 @@
 package com.bookstore.controller;
 
+import com.bookstore.model.admin.Admin;
 import com.bookstore.model.user.*;
+import com.bookstore.service.AdminService;
 import com.bookstore.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +37,15 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+    private final AdminService adminService;
 
     @Value("${app.profile.upload.dir:src/main/resources/static/images/profiles}")
     private String profileUploadDir;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, AdminService adminService) {
         this.userService = userService;
+        this.adminService = adminService;
     }
 
     // =========================================================================
@@ -62,6 +66,17 @@ public class UserController {
                                @RequestParam("password") String password,
                                HttpSession session,
                                RedirectAttributes redirectAttributes) {
+        // 1. Authenticate against AdminService (admins.txt: superadmin, moderator, etc.)
+        Optional<Admin> authenticatedAdmin = adminService.authenticate(username, password);
+        if (authenticatedAdmin.isPresent()) {
+            Admin admin = authenticatedAdmin.get();
+            session.setAttribute("currentUser", admin);
+            redirectAttributes.addFlashAttribute("successMessage", 
+                "Welcome back, " + admin.getFullName() + "! Logged in as " + admin.getAdminType());
+            return "redirect:/admin/dashboard";
+        }
+
+        // 2. Authenticate against UserService (users.txt: customer and admin accounts)
         Optional<User> authenticatedUser = userService.authenticate(username, password);
 
         if (authenticatedUser.isPresent()) {
@@ -149,6 +164,12 @@ public class UserController {
         if (freshUser.isPresent()) {
             currentUser = freshUser.get();
             session.setAttribute("currentUser", currentUser);
+        } else if (currentUser instanceof Admin) {
+            Optional<Admin> freshAdmin = adminService.getAdminById(currentUser.getUserId());
+            if (freshAdmin.isPresent()) {
+                currentUser = freshAdmin.get();
+                session.setAttribute("currentUser", currentUser);
+            }
         }
 
         model.addAttribute("user", currentUser);
@@ -202,7 +223,14 @@ public class UserController {
                 ((CustomerUser) currentUser).setMembershipType(MembershipType.fromString(membershipType));
             }
 
-            boolean updated = userService.updateProfile(currentUser);
+            boolean updated;
+            if (currentUser instanceof Admin) {
+                Admin admin = (Admin) currentUser;
+                updated = adminService.updateAdmin(
+                    admin.getUserId(), admin.getUserId(), email, password, admin.getPermissions());
+            } else {
+                updated = userService.updateProfile(currentUser);
+            }
             if (updated) {
                 session.setAttribute("currentUser", currentUser);
                 redirectAttributes.addFlashAttribute("successMessage", "Profile updated successfully!");

@@ -38,6 +38,7 @@ public class DataInitializer implements CommandLineRunner {
         if (!Files.exists(FileStorageHelper.resolvePath("users.txt"))) {
             String header = "userId|username|password|fullName|email|phoneNumber|role|membershipType|createdAt";
             List<String> records = Arrays.asList(
+                "U000|superadmin|admin123|Super Administrator|admin@bookstore.com|0771234567|ADMIN|NONE|2024-01-01",
                 "U001|admin|admin123|Sarah Jenkins|admin@readerscafe.com|0771234567|ADMIN|NONE|2026-01-10",
                 "U002|john_doe|password123|John Doe|john.doe@gmail.com|0712345678|CUSTOMER|GOLD|2026-02-15",
                 "U003|jane_smith|password123|Jane Smith|jane.smith@yahoo.com|0723456789|CUSTOMER|SILVER|2026-03-01",

@@ -69,12 +69,13 @@ public class AdminController {
     // =========================================================================
 
     @GetMapping("/login")
-    public String showAdminLoginForm(HttpSession session) {
+    public String showAdminLoginForm(HttpSession session, Model model) {
         User user = (User) session.getAttribute("currentUser");
         if (user != null && user.hasAdminPrivileges()) {
             return "redirect:/admin/dashboard";
         }
-        return "redirect:/login";
+        model.addAttribute("pageTitle", "Admin Sign In - Chapter One");
+        return "admin/admin-login";
     }
 
     @PostMapping("/login")
@@ -82,8 +83,18 @@ public class AdminController {
                                     @RequestParam("password") String password,
                                     HttpSession session,
                                     RedirectAttributes redirectAttributes) {
-        Optional<User> authenticatedUser = userService.authenticate(username, password);
+        // 1. Authenticate against AdminService (admins.txt: superadmin, moderator, etc.)
+        Optional<Admin> authenticatedAdmin = adminService.authenticate(username, password);
+        if (authenticatedAdmin.isPresent()) {
+            Admin admin = authenticatedAdmin.get();
+            session.setAttribute("currentUser", admin);
+            redirectAttributes.addFlashAttribute("successMessage",
+                "Welcome back, " + admin.getFullName() + "! Logged in as " + admin.getAdminType());
+            return "redirect:/admin/dashboard";
+        }
 
+        // 2. Fallback to UserService (users.txt: staff admin accounts)
+        Optional<User> authenticatedUser = userService.authenticate(username, password);
         if (authenticatedUser.isPresent()) {
             User user = authenticatedUser.get();
             if (user.hasAdminPrivileges()) {
@@ -93,9 +104,10 @@ public class AdminController {
                 return "redirect:/admin/dashboard";
             }
         }
+
         redirectAttributes.addFlashAttribute("errorMessage",
             "Invalid credentials or administrative privileges required.");
-        return "redirect:/login";
+        return "redirect:/admin/login";
     }
 
     // =========================================================================

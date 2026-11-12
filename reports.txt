@@ -1,0 +1,3 @@
+RPT0001|STOCK_SUMMARY|U001|2026-11-11|12|2316|1|STOCK SUMMARY: Total books=12, Total units=2316, Low-stock items=1
+RPT0002|STOCK_SUMMARY|U001|2026-11-11|12|2316|1|STOCK SUMMARY: Total books=12, Total units=2316, Low-stock items=1
+RPT0003|LOW_STOCK_ALERT|U001|2026-11-11|12|2316|1|LOW STOCK ALERT — Books at or below 5 units: To Kill a Mockingbird (0),

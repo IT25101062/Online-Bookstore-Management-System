@@ -204,12 +204,14 @@ public class FileAdminDaoImpl implements AdminDao {
                       .forEach(perms::add);
             }
 
+            String fullName = username.equalsIgnoreCase("superadmin") ? "Super Administrator" : username;
+
             if (isSuperAdmin) {
                 admin = new SuperAdmin(adminId, username, password,
-                                       username, email, "", perms, createdAt);
+                                       fullName, email, "", perms, createdAt);
             } else {
                 admin = new ModeratorAdmin(adminId, username, password,
-                                           username, email, "", perms, createdAt);
+                                           fullName, email, "", perms, createdAt);
             }
             admin.setEmail(email);
             return admin;

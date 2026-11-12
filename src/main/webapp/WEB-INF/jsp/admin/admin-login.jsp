@@ -57,8 +57,11 @@
                     <!-- Demo shortcuts -->
                     <div class="mt-4 p-3 rounded-3" style="background:#fbf8f3; border:1px solid #ede3da;">
                         <small class="fw-bold d-block mb-1" style="color:#240e18;">Staff Demo Credentials:</small>
+                        <div class="small mb-1" style="color:#786670;">
+                            Super Admin: <code>superadmin</code> &bull; Password: <code>admin123</code>
+                        </div>
                         <div class="small" style="color:#786670;">
-                            Username: <code>admin</code> &bull; Password: <code>admin123</code>
+                            Moderator: <code>moderator</code> &bull; Password: <code>mod123</code>
                         </div>
                     </div>
                 </div>

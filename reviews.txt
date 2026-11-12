@@ -6,3 +6,4 @@ REV004|B003|U002|john_doe|5|The best technical book on distributed databases and
 REV005|B005|U003|jane_smith|4|Beautifully written classic. Fitzgerald's prose is breathtaking.|PUBLIC|2026-10-11|APPROVED
 REV006|B001|U005|Senindee Dinanga|5|Effective Java by Joshua Bloch is a useful book that teaches programmers how to write clean, efficient, and reliable Java code. It explains best practices with practical examples and helps readers avoid common programming mistakes. I recommend this book to Java students and developers who want to improve their programming skills.|VERIFIED|2026-10-22|APPROVED
 REV007|B001|U003|jane_smith|5|One of the finest programming books ever published. A must-have on every engineer's desk!|VERIFIED|2026-10-22|APPROVED
+REV008|B001|U006|Alex Perera|5|good|VERIFIED|2026-11-11|APPROVED

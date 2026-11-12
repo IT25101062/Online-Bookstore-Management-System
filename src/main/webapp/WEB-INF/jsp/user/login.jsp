@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <jsp:include page="../common/header.jsp"/>
@@ -47,8 +47,11 @@
                         <div class="small mb-1" style="color:#786670;">
                             <span class="badge bg-secondary me-1">Customer</span> <code>john_doe</code> &bull; <code>password123</code>
                         </div>
+                        <div class="small mb-1" style="color:#786670;">
+                            <span class="badge bg-danger me-1">Super Admin</span> <code>superadmin</code> &bull; <code>admin123</code>
+                        </div>
                         <div class="small" style="color:#786670;">
-                            <span class="badge bg-plum me-1" style="background:#361724 !important;">Admin</span> <code>admin</code> &bull; <code>admin123</code>
+                            <span class="badge bg-plum me-1" style="background:#361724 !important;">Staff Admin</span> <code>admin_dinanga</code> &bull; <code>admin123</code>
                         </div>
                     </div>
                 </div>
